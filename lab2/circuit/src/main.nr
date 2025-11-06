@@ -26,14 +26,23 @@ fn main(
     assert(credit_score > 500);
     
     // 2. Convert credit_score to Field
+    let credit_score_field: Field = credit_score as Field;
     
     // 3. Construct the message: name || lastname || credit_score
+    let message: [Field; 3] = [
+        firstname, 
+        lastname, 
+        credit_score_field
+    ];
    
     // 4. Hash the message into a Merkle leaf
+    let leaf: Field = std::hash::pedersen_hash(message);
 
     // 5. Recompute Merkle root from leaf and path
+    let computed_root: Field = compute_merkle_root(leaf, index, hashpath);
 
     // 6. Verify it matches the expected root
+    assert(computed_root == root);
 }
 
 
